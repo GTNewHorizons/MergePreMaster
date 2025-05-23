@@ -7,6 +7,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
@@ -32,7 +33,7 @@ public class Main implements Callable<Integer> {
     private String targetBranch = "dev";
 
     @Parameters(paramLabel = "<prNum>", description = "PRs to be merged into the target branch")
-    private TreeSet<Integer> prNumbers;
+    private HashSet<Integer> prNumbers;
 
     @Override
     public Integer call() throws Exception {
@@ -53,7 +54,7 @@ public class Main implements Callable<Integer> {
 
             var failedPRs = new TreeMap<Integer, String>();
             var mergedPRs = new TreeMap<Integer, String>();
-            for (int prNumber : prNumbers.reversed()) {
+            for (int prNumber : prNumbers) {
                 String prBranch = "pr-" + prNumber;
                 log.info("Merging PR #{}", prNumber);
                 runCommand("git", "fetch", remote, String.format("pull/%d/head:%s", prNumber, prBranch));
