@@ -10,4 +10,4 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-rootProject.name = "gtnh-repo-pre"
+rootProject.name = "MergePreMaster"

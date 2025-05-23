@@ -53,18 +53,22 @@ java {
 }
 
 application {
-    mainClass = "GTNHRepoPre.Main"
+    mainClass = "MergePreMaster.Main"
     tasks {
+        run.get().setWorkingDir("/mnt/games/Minecraft/Repos/GTNewHorizons/NewHorizonsCoreMod/")
         // command line args example in a dev env
-//        run.get().args = listOf(
-//                "-l",
-//                "--add",
-//                "-m", "/mnt/games/Minecraft/Instances/GTNH Nightly/.minecraft/",
-//                "-s", "CLIENT",
-//                "--add",
-//                "-m", "/mnt/docker/appdata/minecraft/gtnh/",
-//                "-s", "server"
-//        )
+        run.get().args = listOf(
+               // "--dryrun",
+            "1269",
+            "1268",
+            "1221",
+            "1228",
+            "1227",
+            "1267",
+            "1266",
+            "1242",
+            "1261"
+        )
     }
 }
 
