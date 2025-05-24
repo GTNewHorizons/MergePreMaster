@@ -33,6 +33,13 @@ public class Main implements Callable<Integer> {
     @Parameters(paramLabel = "<prNum>", description = "PRs to be merged into the target branch")
     private int[] prNumbers;
 
+    private final static boolean isWindows;
+
+    static {
+        var osName = System.getProperty("os.name").toLowerCase();
+        isWindows = osName.contains("win");
+    }
+
     @Override
     public Integer call() throws Exception {
         try {
@@ -74,9 +81,16 @@ public class Main implements Callable<Integer> {
 
                     log.info("Testing ./gradlew build");
 
-                    if (runCommand(false, "./gradlew", "build") != 0) {
-                        throw new RuntimeException("Build failed");
+                    if (isWindows){
+                        if (runCommand(false, "./gradlew.bat", "build") != 0) {
+                            throw new RuntimeException("Build failed");
+                        }
+                    } else {
+                        if (runCommand(false, "./gradlew", "build") != 0) {
+                            throw new RuntimeException("Build failed");
+                        }
                     }
+
                     runCommand("git", "commit", "-m", String.format("Merge %s", prBranch));
 
                     log.info("Merged PR #{}", prNumber);
