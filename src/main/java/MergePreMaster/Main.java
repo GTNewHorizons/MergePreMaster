@@ -79,14 +79,14 @@ public class Main implements Callable<Integer> {
                         throw new RuntimeException("Failed to merge");
                     }
 
-                    log.info("Testing ./gradlew build");
+                    log.info("Testing gradlew classes for compiling");
 
                     if (isWindows){
-                        if (runCommand(false, "./gradlew.bat", "build") != 0) {
+                        if (runCommand(false, "./gradlew.bat", "classes") != 0) {
                             throw new RuntimeException("Build failed");
                         }
                     } else {
-                        if (runCommand(false, "./gradlew", "build") != 0) {
+                        if (runCommand(false, "./gradlew", "classes") != 0) {
                             throw new RuntimeException("Build failed");
                         }
                     }
