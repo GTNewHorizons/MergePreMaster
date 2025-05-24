@@ -7,9 +7,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.HashMap;
 import java.util.concurrent.Callable;
 
 
@@ -57,8 +55,8 @@ public class Main implements Callable<Integer> {
                 log.fatal("Error merging {} into {}", baseBranch, targetBranch);
             }
 
-            var failedPRs = new TreeMap<Integer, String>();
-            var mergedPRs = new TreeMap<Integer, String>();
+            var failedPRs = new HashMap<Integer, String>();
+            var mergedPRs = new HashMap<Integer, String>();
             for (int prNumber : prNumbers) {
                 String prBranch = "pr-" + prNumber;
                 log.info("Merging PR #{}", prNumber);
