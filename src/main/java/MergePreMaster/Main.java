@@ -33,11 +33,16 @@ public class Main implements Callable<Integer> {
     private String targetBranch = "dev";
 
     @Parameters(paramLabel = "<prNum>", description = "PRs to be merged into the target branch")
-    private HashSet<Integer> prNumbers;
+    private int[] prNumbers;
 
     @Override
     public Integer call() throws Exception {
         try {
+            if (prNumbers.length == 0) {
+                log.warn("No prs provided");
+                return 0;
+            }
+
             runCommand("git", "checkout", baseBranch);
             runCommand("git", "fetch", remote, baseBranch);
 
@@ -90,7 +95,7 @@ public class Main implements Callable<Integer> {
                 failedPRs.forEach((k, v) -> log.warn("\tPR #{}: {}", k, v));
             }
 
-            if (!prNumbers.isEmpty()) {
+            if (prNumbers.length > 0) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("Pre Release Build\n");
                 sb.append("Merged PRs (no # means no changes):\n");
