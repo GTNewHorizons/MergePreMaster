@@ -59,6 +59,7 @@ public class Main implements Callable<Integer> {
             }
 
             if (!isAncestor(baseBranch, targetBranch) && runCommand("git", "merge", baseBranch) != 0){
+                runCommand("git", "merge", "--abort");
                 log.fatal("Error merging {} into {}", baseBranch, targetBranch);
             }
 
