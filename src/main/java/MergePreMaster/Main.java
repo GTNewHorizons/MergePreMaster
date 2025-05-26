@@ -58,11 +58,6 @@ public class Main implements Callable<Integer> {
                 runCommand("git", "checkout", targetBranch);
             }
 
-            if (!isAncestor(baseBranch, targetBranch) && runCommand("git", "merge", baseBranch) != 0){
-                runCommand("git", "merge", "--abort");
-                log.fatal("Error merging {} into {}", baseBranch, targetBranch);
-            }
-
             var failedPRs = new HashMap<Integer, String>();
             var mergedPRs = new HashMap<Integer, String>();
             for (int prNumber : prNumbers) {
@@ -82,7 +77,7 @@ public class Main implements Callable<Integer> {
 
                     log.info("Testing gradlew classes for compiling");
 
-                    if (isWindows){
+                    if (isWindows) {
                         if (runCommand(false, "./gradlew.bat", "classes") != 0) {
                             throw new RuntimeException("Build failed");
                         }
