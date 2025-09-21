@@ -10,24 +10,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
 
-
 @Log4j2(topic = "GTNH-Repo-Pre")
 @Command(name = "GTNH-Repo-Pre", version = "$VERSION", mixinStandardHelpOptions = true)
 public class Main implements Callable<Integer> {
 
-    @Option(names = {"--dryrun"}, defaultValue = "false", description = "Don't execute commands")
+    @Option(names = { "--dryrun" }, defaultValue = "false", description = "Don't execute commands")
     private boolean dryRun;
 
-    @Option(names = {"--fresh"}, description = "Using the existing target branch instead of creating a new one")
+    @Option(names = { "--fresh" }, description = "Using the existing target branch instead of creating a new one")
     private boolean fresh;
 
-    @Option(names = {"-r", "--remote"}, defaultValue = "origin", description = "Remote to use")
+    @Option(names = { "-r", "--remote" }, defaultValue = "origin", description = "Remote to use")
     private String remote = "origin";
 
-    @Option(names = {"-b", "--base"}, defaultValue = "master", description = "Base branch")
+    @Option(names = { "-b", "--base" }, defaultValue = "master", description = "Base branch")
     private String baseBranch = "master";
 
-    @Option(names = {"-t", "--target"}, defaultValue = "dev", description = "Target branch")
+    @Option(names = { "-t", "--target" }, defaultValue = "dev", description = "Target branch")
     private String targetBranch = "dev";
 
     @Parameters(paramLabel = "<prNum>", description = "PRs to be merged into the target branch")
@@ -63,7 +62,7 @@ public class Main implements Callable<Integer> {
             for (int prNumber : prNumbers) {
                 String prBranch = "pr-" + prNumber;
                 log.info("Merging PR #{}", prNumber);
-                runCommand("git", "fetch", remote, String.format("pull/%d/head:%s", prNumber, prBranch));
+                runCommand("git", "fetch", "-f", remote, String.format("pull/%d/head:%s", prNumber, prBranch));
                 try {
                     if (isAncestor(prBranch, targetBranch)) {
                         log.info("PR #{} already merged", prNumber);
